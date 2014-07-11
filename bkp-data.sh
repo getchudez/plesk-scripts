@@ -14,20 +14,21 @@ F_VHOSTS="/var/www/vhosts/"
 F_VMAIL="/var/qmail/mailnames/"
 BACKUP_VHOSTS="/data/backups/vhosts/"
 BACKUP_VMAIL="/data/backups/vmail/"
+RSYNC_BIN=$(which rsync)
 
 if [ "$1" == "LOCAL" ];then
-  echo rsync -apzh --delete $F_VHOSTS $BACKUP_VHOSTS
-  echo rsync -apzh --delete $F_VMAIS $BACKUP_VMAIL
+  echo $RSYNC_BIN -apzh --delete $F_VHOSTS $BACKUP_VHOSTS
+  echo $RSYNC_BIN -apzh --delete $F_VMAIS $BACKUP_VMAIL
 fi
 
 case "$1" in
 	local)
-		echo rsync -apzh --delete $F_VHOSTS $BACKUP_VHOSTS
-		echo rsync -apzh --delete $F_VMAIS $BACKUP_VMAIL
+		echo $RSYNC_BIN -apzh --delete $F_VHOSTS $BACKUP_VHOSTS
+		echo $RSYNC_BIN -apzh --delete $F_VMAIS $BACKUP_VMAIL
 		;;
 	remote)
-		echo rsync -apzh -e ssh --delete $F_VHOSTS $R_HOST:$BACKUP_VHOSTS
-		echo rsync -apzh -e ssh --delete $F_VMAIS $R_HOST:$BACKUP_VMAIL
+		echo $RSYNC_BIN -apzh -e ssh --delete $F_VHOSTS $R_HOST:$BACKUP_VHOSTS
+		echo $RSYNC_BIN -apzh -e ssh --delete $F_VMAIS $R_HOST:$BACKUP_VMAIL
 		;;
 	*)
 		echo $"Usage: $0 {local|remote}"
