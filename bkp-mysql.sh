@@ -9,7 +9,8 @@
 # I've another script called clean-old-mysql-bkp.sh, this script should run every day and will delete old backup
 # 
 ### change the values below where needed.....
-DBNAMES="`mysql -N -uadmin -p\`cat /etc/psa/.psa.shadow\` -e "show databases;"`"
+MYSQL_BIN=$(which mysql)
+DBNAMES="$MYSQL_BIN `-N -uadmin -p\`cat /etc/psa/.psa.shadow\` -e "show databases;"`"
 HOST="--host=localhost"
 USER="--user=admin"
 PASSWORD="--password=`cat cat /etc/psa/.psa.shadow`"
@@ -64,5 +65,5 @@ do
 done
 
 echo "=========================================="
-echo "            done with all database!       "
+echo "            done with all databases!       "
 echo "=========================================="
