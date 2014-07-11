@@ -9,26 +9,25 @@
 # If you want to use remote option you should get ssh key defnied to could copy files to remote server.
 #
 #
-R_HOST=""
+HOSTNAME_BIN=$(which hostname)
+RSYNC_BIN=$(which rsync)
+L_HOST=`$HOSTNAME_BIN -a`
+R_HOST="srvremote"
 F_VHOSTS="/var/www/vhosts/"
 F_VMAIL="/var/qmail/mailnames/"
 BACKUP_VHOSTS="/data/backups/vhosts/"
 BACKUP_VMAIL="/data/backups/vmail/"
-RSYNC_BIN=$(which rsync)
-
-if [ "$1" == "LOCAL" ];then
-  echo $RSYNC_BIN -apzh --delete $F_VHOSTS $BACKUP_VHOSTS
-  echo $RSYNC_BIN -apzh --delete $F_VMAIS $BACKUP_VMAIL
-fi
+R_BACKUP_VHOSTS="/data/backups/$L_HOSTNAME-weekly-vhosts/"
+R_BACKUP_VMAIL="/data/backups/$L_HOSTNAME-weekly-mailnames/"
 
 case "$1" in
 	local)
-		echo $RSYNC_BIN -apzh --delete $F_VHOSTS $BACKUP_VHOSTS
-		echo $RSYNC_BIN -apzh --delete $F_VMAIS $BACKUP_VMAIL
+		$RSYNC_BIN -apzh --delete $F_VHOSTS $BACKUP_VHOSTS
+		$RSYNC_BIN -apzh --delete $F_VMAIL $BACKUP_VMAIL
 		;;
 	remote)
-		echo $RSYNC_BIN -apzh -e ssh --delete $F_VHOSTS $R_HOST:$BACKUP_VHOSTS
-		echo $RSYNC_BIN -apzh -e ssh --delete $F_VMAIS $R_HOST:$BACKUP_VMAIL
+		$RSYNC_BIN -apzh -e ssh --delete $F_VHOSTS $R_HOST:$R_BACKUP_VHOSTS
+		$RSYNC_BIN -apzh -e ssh --delete $F_VMAIL $R_HOST:$R_BACKUP_VMAIL
 		;;
 	*)
 		echo $"Usage: $0 {local|remote}"
