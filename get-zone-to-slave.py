@@ -1,32 +1,19 @@
 #!/usr/bin/python
-#
-# Version: V0.1 - 09-09-2014
-# Author: Gustavo Etchudez - mail: getchudez@yandex.com
-# URL: https://github.com/getchudez
-#
-#
-# This script is used to get all DNS zone from server where you execute, create a DNS file as slaves and copy this to slave server defined.
-# I wrote this because I have two plesk servers with their master DNS zones and wanted to resolve all zones at all servers.
-# You should get ssh key defnied to could copy files and execute reload to remote server.
-# Remember to add at MASTER server any SLAVE IP address to could transfer zones.
-#
-#
 
 import MySQLdb
 
 ##
 ## Define database information
 ##
-
 DB_HOST = 'localhost'
 DB_USER = 'admin'
-DB_PASS = 'yourpassword'
+DB_PASS = '$AES-128-CBC$M8r6KCqmwCeH3pauuNQkXg==$UMoHiEi/w2vRtkoWCBzCHQ=='
 DB_NAME = 'psa'
 
 ##
 ## You have to define from which server are you getting the following domains
 ##
-MASTER_DNS = '192.168.0.1'
+MASTER_DNS = '74.208.113.7'
 
 def run_query(query=''):
     datos = [DB_HOST, DB_USER, DB_PASS, DB_NAME]
@@ -47,7 +34,7 @@ def run_query(query=''):
     return data
 
 def escribe_dom(dom1):
-  archivo = open ("/home/linuxar/doms.txt", "r+")
+#  archivo = open ("/home/linuxar/doms.txt", "wyy)
   contenido = archivo.read()
   final_del_archivo = archivo.tell()
   archivo.write('zone \"'+dom1+'\" {\n')
@@ -75,9 +62,7 @@ result = run_query(query)
 #  print "};"
 #  print ""
 
-archivo = open ("/home/linuxar/doms.txt", "r+")
-contenido = archivo.read()
-final_del_archivo = archivo.tell()
+archivo = open ("/home/linuxar/doms.txt", "w+")
 
 for zone in result:
   escribe_dom(zone[0])
