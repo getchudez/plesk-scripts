@@ -17,6 +17,7 @@ import MySQLdb
 ##
 ## Define database information
 ##
+
 DB_HOST = 'localhost'
 DB_USER = 'admin'
 DB_PASS = 'yourpassword'
